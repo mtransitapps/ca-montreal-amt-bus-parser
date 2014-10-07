@@ -7,6 +7,8 @@ import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.gtfs.data.GTrip;
 import org.mtransit.parser.mt.data.MTrip;
 
+// http://www.amt.qc.ca/developers/
+// http://www.amt.qc.ca/xdata/express/google_transit.zip
 public class MontrealAMTBusAgencyTools extends DefaultAgencyTools {
 
 	public static final String ROUTE_TYPE_FILTER = "3"; // bus only
@@ -15,7 +17,7 @@ public class MontrealAMTBusAgencyTools extends DefaultAgencyTools {
 		if (args == null || args.length == 0) {
 			args = new String[3];
 			args[0] = "input/gtfs.zip";
-			args[1] = "../ca-montreal-amt-bus/res/raw/";
+			args[1] = "../ca-montreal-amt-bus-android/res/raw/";
 			args[2] = ""; // files-prefix
 		}
 		new MontrealAMTBusAgencyTools().start(args);
