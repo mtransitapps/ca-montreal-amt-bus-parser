@@ -5,6 +5,7 @@ import org.mtransit.parser.Utils;
 import org.mtransit.parser.gtfs.data.GRoute;
 import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.gtfs.data.GTrip;
+import org.mtransit.parser.mt.data.MSpec;
 import org.mtransit.parser.mt.data.MTrip;
 
 // http://www.amt.qc.ca/developers/
@@ -49,22 +50,13 @@ public class MontrealAMTBusAgencyTools extends DefaultAgencyTools {
 	private static final String DIRECTION = "Direction ";
 
 	private String cleanTripHeadsign(String gTripHeading) {
-		return cleanStopName(gTripHeading.substring(DIRECTION.length()));
+		return MSpec.cleanLabel(gTripHeading.substring(DIRECTION.length()));
 	}
 
-	public static final String PLACE_CHAR_DE = "de ";
-	public static final String PLACE_CHAR_RUE = "rue ";
 
 	@Override
 	public String cleanStopName(String gStopName) {
-		String result = gStopName;
-		if (result.contains(PLACE_CHAR_DE)) {
-			result = result.replace(PLACE_CHAR_DE, "");
-		}
-		if (result.contains(PLACE_CHAR_RUE)) {
-			result = result.replace(PLACE_CHAR_RUE, "");
-		}
-		return super.cleanStopName(result);
+		return super.cleanStopNameFR(gStopName);
 	}
 
 	@Override
