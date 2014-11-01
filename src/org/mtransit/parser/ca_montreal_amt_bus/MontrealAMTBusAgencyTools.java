@@ -18,7 +18,7 @@ public class MontrealAMTBusAgencyTools extends DefaultAgencyTools {
 		if (args == null || args.length == 0) {
 			args = new String[3];
 			args[0] = "input/gtfs.zip";
-			args[1] = "../ca-montreal-amt-bus-android/res/raw/";
+			args[1] = "../../mtransitapps/ca-montreal-amt-bus-android/res/raw/";
 			args[2] = ""; // files-prefix
 		}
 		new MontrealAMTBusAgencyTools().start(args);
