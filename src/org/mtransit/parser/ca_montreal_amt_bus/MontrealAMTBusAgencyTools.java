@@ -49,8 +49,9 @@ public class MontrealAMTBusAgencyTools extends DefaultAgencyTools {
 
 	private static final String DIRECTION = "Direction ";
 
-	private String cleanTripHeadsign(String gTripHeading) {
-		return MSpec.cleanLabel(gTripHeading.substring(DIRECTION.length()));
+	@Override
+	public String cleanTripHeadsign(String tripHeadsign) {
+		return MSpec.cleanLabel(tripHeadsign.substring(DIRECTION.length()));
 	}
 
 
