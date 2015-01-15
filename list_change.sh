@@ -1,5 +1,5 @@
 #!/bin/bash
 echo ">> Listing change...";
-TARGET="../../mtransitapps/ca-montreal-amt-bus-android/";
+TARGET=$(cat "change_directory")
 git -C $TARGET status | grep "res/raw"
 echo ">> Listing change... DONE";
