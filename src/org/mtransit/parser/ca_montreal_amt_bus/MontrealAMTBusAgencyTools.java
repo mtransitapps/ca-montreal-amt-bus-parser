@@ -59,7 +59,7 @@ public class MontrealAMTBusAgencyTools extends DefaultAgencyTools {
 	@Override
 	public boolean excludeTrip(GTrip gTrip) {
 		if (this.serviceIds != null) {
-			return excludeUselessTrip(gTrip, serviceIds);
+			return excludeUselessTrip(gTrip, this.serviceIds);
 		}
 		return super.excludeTrip(gTrip);
 	}
