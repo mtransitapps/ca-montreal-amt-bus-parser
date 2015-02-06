@@ -88,11 +88,6 @@ public class MontrealAMTBusAgencyTools extends DefaultAgencyTools {
 
 
 	@Override
-	public String cleanStopName(String gStopName) {
-		return super.cleanStopNameFR(gStopName);
-	}
-
-	@Override
 	public int getStopId(GStop gStop) {
 		return Integer.valueOf(getStopCode(gStop)); // using stop code as stop ID
 	}
