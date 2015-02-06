@@ -72,6 +72,13 @@ public class MontrealAMTBusAgencyTools extends DefaultAgencyTools {
 		return super.excludeRoute(gRoute);
 	}
 
+	private static final String AGENCY_COLOR = "20558A";
+
+	@Override
+	public String getAgencyColor() {
+		return AGENCY_COLOR;
+	}
+
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip) {
 		String stationName = cleanTripHeadsign(gTrip.trip_headsign);
