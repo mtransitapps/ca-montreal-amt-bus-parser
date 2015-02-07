@@ -93,6 +93,10 @@ public class MontrealAMTBusAgencyTools extends DefaultAgencyTools {
 		return MSpec.cleanLabel(tripHeadsign.substring(DIRECTION.length()));
 	}
 
+	@Override
+	public String cleanStopName(String gStopName) {
+		return super.cleanStopNameFR(gStopName);
+	}
 
 	@Override
 	public int getStopId(GStop gStop) {
