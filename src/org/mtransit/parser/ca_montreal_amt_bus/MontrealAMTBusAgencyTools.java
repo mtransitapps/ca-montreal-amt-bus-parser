@@ -84,12 +84,14 @@ public class MontrealAMTBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
-		return CleanUtils.cleanLabel(tripHeadsign.substring(DIRECTION.length()));
+		tripHeadsign = tripHeadsign.substring(DIRECTION.length());
+		return CleanUtils.cleanLabel(tripHeadsign);
 	}
 
 	@Override
 	public String cleanStopName(String gStopName) {
-		return super.cleanStopNameFR(gStopName);
+		gStopName = CleanUtils.cleanStreetTypesFRCA(gStopName);
+		return CleanUtils.cleanLabelFR(gStopName);
 	}
 
 	@Override
