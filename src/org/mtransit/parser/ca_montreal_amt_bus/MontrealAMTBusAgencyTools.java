@@ -1,11 +1,14 @@
 package org.mtransit.parser.ca_montreal_amt_bus;
 
 import java.util.HashSet;
+import java.util.Locale;
+import java.util.regex.Pattern;
 
 import org.mtransit.parser.DefaultAgencyTools;
 import org.mtransit.parser.Utils;
 import org.mtransit.parser.gtfs.data.GCalendar;
 import org.mtransit.parser.gtfs.data.GCalendarDate;
+import org.mtransit.parser.gtfs.data.GRoute;
 import org.mtransit.parser.gtfs.data.GSpec;
 import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.gtfs.data.GTrip;
@@ -14,8 +17,11 @@ import org.mtransit.parser.mt.data.MRoute;
 import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.mt.data.MTrip;
 
-// http://www.amt.qc.ca/developers/
-// http://www.amt.qc.ca/xdata/express/google_transit.zip
+// https://rtm.quebec/en/about/open-data
+// https://rtm.quebec/xdata/express/google_transit.zip
+// http://www.rtl-longueuil.qc.ca/en-CA/open-data/
+// http://www.rtl-longueuil.qc.ca/en-CA/open-data/gtfs-files/
+// http://www.rtl-longueuil.qc.ca/transit/latestfeed/RTL.zip
 public class MontrealAMTBusAgencyTools extends DefaultAgencyTools {
 
 	public static void main(String[] args) {
@@ -64,6 +70,14 @@ public class MontrealAMTBusAgencyTools extends DefaultAgencyTools {
 	}
 
 	@Override
+	public boolean excludeRoute(GRoute gRoute) {
+		if (!gRoute.getRouteShortName().equals("90")) {
+			return true;
+		}
+		return super.excludeRoute(gRoute);
+	}
+
+	@Override
 	public Integer getAgencyRouteType() {
 		return MAgency.ROUTE_TYPE_BUS;
 	}
@@ -80,16 +94,19 @@ public class MontrealAMTBusAgencyTools extends DefaultAgencyTools {
 		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), gTrip.getDirectionId());
 	}
 
-	private static final String DIRECTION = "Direction ";
+	private static final Pattern TERMINUS = Pattern.compile("((^|\\W){1}(terminus)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
 
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
-		tripHeadsign = tripHeadsign.substring(DIRECTION.length());
-		return CleanUtils.cleanLabel(tripHeadsign);
+		tripHeadsign = TERMINUS.matcher(tripHeadsign).replaceAll(CleanUtils.SPACE);
+		tripHeadsign = CleanUtils.cleanStreetTypesFRCA(tripHeadsign);
+		return CleanUtils.cleanLabelFR(tripHeadsign);
 	}
 
 	@Override
 	public String cleanStopName(String gStopName) {
+		gStopName = gStopName.toLowerCase(Locale.CANADA_FRENCH); // SOURCE FILE ALL CAPS !!!
+		gStopName = CleanUtils.CLEAN_ET.matcher(gStopName).replaceAll(CleanUtils.CLEAN_ET_REPLACEMENT);
 		gStopName = CleanUtils.cleanStreetTypesFRCA(gStopName);
 		return CleanUtils.cleanLabelFR(gStopName);
 	}
