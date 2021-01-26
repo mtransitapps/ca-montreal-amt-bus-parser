@@ -18,7 +18,6 @@ import org.mtransit.parser.mt.data.MTrip;
 
 import java.util.HashSet;
 import java.util.Locale;
-import java.util.regex.Pattern;
 
 // https://exo.quebec/en/about/open-data
 // https://exo.quebec/xdata/express/google_transit.zip
@@ -102,17 +101,27 @@ public class MontrealAMTBusAgencyTools extends DefaultAgencyTools {
 
 	@Override
 	public void setTripHeadsign(@NotNull MRoute mRoute, @NotNull MTrip mTrip, @NotNull GTrip gTrip, @NotNull GSpec gtfs) {
-		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), gTrip.getDirectionId());
+		mTrip.setHeadsignString(
+				cleanTripHeadsign(gTrip.getTripHeadsignOrDefault()),
+				gTrip.getDirectionIdOrDefault()
+		);
 	}
 
-	private static final Pattern TERMINUS = Pattern.compile("((^|\\W)(terminus)(\\W|$))", Pattern.CASE_INSENSITIVE);
+	@Override
+	public boolean directionFinderEnabled() {
+		return true;
+	}
 
 	@NotNull
 	@Override
 	public String cleanTripHeadsign(@NotNull String tripHeadsign) {
-		tripHeadsign = TERMINUS.matcher(tripHeadsign).replaceAll(CleanUtils.SPACE);
 		tripHeadsign = CleanUtils.cleanStreetTypesFRCA(tripHeadsign);
 		return CleanUtils.cleanLabelFR(tripHeadsign);
+	}
+
+	@Override
+	public boolean mergeHeadsign(@NotNull MTrip mTrip, @NotNull MTrip mTripToMerge) {
+		throw new MTLog.Fatal("Unexpected trips to merge %s & %s!", mTrip, mTripToMerge);
 	}
 
 	@NotNull
